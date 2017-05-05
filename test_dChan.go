@@ -18,9 +18,7 @@ func TestInbound(t *testing.T) {
 		cs := make(chan struct{}, 100)
 		Convey("When ", t, func() {
 			// TODO need a name? can I use reflect?
-			dc.Load(cs)
-
-			cs := dc.MakeOutbound()
+			dc.PipeIn(cs)
 		})
 	})
 }
@@ -30,9 +28,7 @@ func TestOutbound(t *testing.T) {
 		d := New()
 		cs := make(chan struct{}, 100)
 		Convey("When ", t, func() {
-			dc.Dump(cs)
-
-			cs := dc.MakeInbound()
+			dc.PipeOut(cs)
 		})
 	})
 }
@@ -42,9 +38,7 @@ func TestObserver(t *testing.T) {
 		d := New()
 		cs := make(chan struct{}, 100)
 		Convey("When ", t, func() {
-			dc.Load(cs)
-
-			cs := dc.Make()
+			dc.Pipe(cs)
 		})
 	})
 }
