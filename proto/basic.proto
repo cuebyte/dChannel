@@ -1,16 +1,16 @@
 syntax = "proto3";
-package dChannel;
+package dChan;
 
 message Struct { bool value = 1; }
 message String { string value = 1; }
 message Bytes { bytes value = 1; }
 message Bool { bool value = 1; }
-
-
+message Int { int32 value = 1; }
 message Int8 { int32 value = 1; }
 message Int16 { int32 value = 1; }
 message Int32 { int32 value = 1; }
 message Int64 { int64 value = 1; }
+message Uint { uint32 value = 1; }
 message Uint8 { uint32 value = 1; }
 message Uint16 { uint32 value = 1; }
 message Uint32 { uint32 value = 1; }

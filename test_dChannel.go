@@ -1,4 +1,4 @@
-package dChannel
+package dChan
 
 import (
 	"testing"

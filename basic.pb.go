@@ -3,7 +3,7 @@
 // DO NOT EDIT!
 
 /*
-Package dChannel is a generated protocol buffer package.
+Package dChan is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/basic.proto
@@ -13,10 +13,12 @@ It has these top-level messages:
 	String
 	Bytes
 	Bool
+	Int
 	Int8
 	Int16
 	Int32
 	Int64
+	Uint
 	Uint8
 	Uint16
 	Uint32
@@ -24,7 +26,7 @@ It has these top-level messages:
 	Float32
 	Float64
 */
-package dChannel
+package dChan
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -105,6 +107,22 @@ func (m *Bool) GetValue() bool {
 	return false
 }
 
+type Int struct {
+	Value int32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
+}
+
+func (m *Int) Reset()                    { *m = Int{} }
+func (m *Int) String() string            { return proto.CompactTextString(m) }
+func (*Int) ProtoMessage()               {}
+func (*Int) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+
+func (m *Int) GetValue() int32 {
+	if m != nil {
+		return m.Value
+	}
+	return 0
+}
+
 type Int8 struct {
 	Value int32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
 }
@@ -112,7 +130,7 @@ type Int8 struct {
 func (m *Int8) Reset()                    { *m = Int8{} }
 func (m *Int8) String() string            { return proto.CompactTextString(m) }
 func (*Int8) ProtoMessage()               {}
-func (*Int8) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*Int8) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 func (m *Int8) GetValue() int32 {
 	if m != nil {
@@ -128,7 +146,7 @@ type Int16 struct {
 func (m *Int16) Reset()                    { *m = Int16{} }
 func (m *Int16) String() string            { return proto.CompactTextString(m) }
 func (*Int16) ProtoMessage()               {}
-func (*Int16) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*Int16) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 func (m *Int16) GetValue() int32 {
 	if m != nil {
@@ -144,7 +162,7 @@ type Int32 struct {
 func (m *Int32) Reset()                    { *m = Int32{} }
 func (m *Int32) String() string            { return proto.CompactTextString(m) }
 func (*Int32) ProtoMessage()               {}
-func (*Int32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+func (*Int32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 func (m *Int32) GetValue() int32 {
 	if m != nil {
@@ -160,9 +178,25 @@ type Int64 struct {
 func (m *Int64) Reset()                    { *m = Int64{} }
 func (m *Int64) String() string            { return proto.CompactTextString(m) }
 func (*Int64) ProtoMessage()               {}
-func (*Int64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+func (*Int64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 func (m *Int64) GetValue() int64 {
+	if m != nil {
+		return m.Value
+	}
+	return 0
+}
+
+type Uint struct {
+	Value uint32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
+}
+
+func (m *Uint) Reset()                    { *m = Uint{} }
+func (m *Uint) String() string            { return proto.CompactTextString(m) }
+func (*Uint) ProtoMessage()               {}
+func (*Uint) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+
+func (m *Uint) GetValue() uint32 {
 	if m != nil {
 		return m.Value
 	}
@@ -176,7 +210,7 @@ type Uint8 struct {
 func (m *Uint8) Reset()                    { *m = Uint8{} }
 func (m *Uint8) String() string            { return proto.CompactTextString(m) }
 func (*Uint8) ProtoMessage()               {}
-func (*Uint8) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+func (*Uint8) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
 func (m *Uint8) GetValue() uint32 {
 	if m != nil {
@@ -192,7 +226,7 @@ type Uint16 struct {
 func (m *Uint16) Reset()                    { *m = Uint16{} }
 func (m *Uint16) String() string            { return proto.CompactTextString(m) }
 func (*Uint16) ProtoMessage()               {}
-func (*Uint16) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+func (*Uint16) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *Uint16) GetValue() uint32 {
 	if m != nil {
@@ -208,7 +242,7 @@ type Uint32 struct {
 func (m *Uint32) Reset()                    { *m = Uint32{} }
 func (m *Uint32) String() string            { return proto.CompactTextString(m) }
 func (*Uint32) ProtoMessage()               {}
-func (*Uint32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
+func (*Uint32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 func (m *Uint32) GetValue() uint32 {
 	if m != nil {
@@ -224,7 +258,7 @@ type Uint64 struct {
 func (m *Uint64) Reset()                    { *m = Uint64{} }
 func (m *Uint64) String() string            { return proto.CompactTextString(m) }
 func (*Uint64) ProtoMessage()               {}
-func (*Uint64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
+func (*Uint64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 func (m *Uint64) GetValue() uint64 {
 	if m != nil {
@@ -240,7 +274,7 @@ type Float32 struct {
 func (m *Float32) Reset()                    { *m = Float32{} }
 func (m *Float32) String() string            { return proto.CompactTextString(m) }
 func (*Float32) ProtoMessage()               {}
-func (*Float32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
+func (*Float32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
 func (m *Float32) GetValue() float32 {
 	if m != nil {
@@ -256,7 +290,7 @@ type Float64 struct {
 func (m *Float64) Reset()                    { *m = Float64{} }
 func (m *Float64) String() string            { return proto.CompactTextString(m) }
 func (*Float64) ProtoMessage()               {}
-func (*Float64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
+func (*Float64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
 func (m *Float64) GetValue() float64 {
 	if m != nil {
@@ -266,36 +300,39 @@ func (m *Float64) GetValue() float64 {
 }
 
 func init() {
-	proto.RegisterType((*Struct)(nil), "dChannel.Struct")
-	proto.RegisterType((*String)(nil), "dChannel.String")
-	proto.RegisterType((*Bytes)(nil), "dChannel.Bytes")
-	proto.RegisterType((*Bool)(nil), "dChannel.Bool")
-	proto.RegisterType((*Int8)(nil), "dChannel.Int8")
-	proto.RegisterType((*Int16)(nil), "dChannel.Int16")
-	proto.RegisterType((*Int32)(nil), "dChannel.Int32")
-	proto.RegisterType((*Int64)(nil), "dChannel.Int64")
-	proto.RegisterType((*Uint8)(nil), "dChannel.Uint8")
-	proto.RegisterType((*Uint16)(nil), "dChannel.Uint16")
-	proto.RegisterType((*Uint32)(nil), "dChannel.Uint32")
-	proto.RegisterType((*Uint64)(nil), "dChannel.Uint64")
-	proto.RegisterType((*Float32)(nil), "dChannel.Float32")
-	proto.RegisterType((*Float64)(nil), "dChannel.Float64")
+	proto.RegisterType((*Struct)(nil), "dChan.Struct")
+	proto.RegisterType((*String)(nil), "dChan.String")
+	proto.RegisterType((*Bytes)(nil), "dChan.Bytes")
+	proto.RegisterType((*Bool)(nil), "dChan.Bool")
+	proto.RegisterType((*Int)(nil), "dChan.Int")
+	proto.RegisterType((*Int8)(nil), "dChan.Int8")
+	proto.RegisterType((*Int16)(nil), "dChan.Int16")
+	proto.RegisterType((*Int32)(nil), "dChan.Int32")
+	proto.RegisterType((*Int64)(nil), "dChan.Int64")
+	proto.RegisterType((*Uint)(nil), "dChan.Uint")
+	proto.RegisterType((*Uint8)(nil), "dChan.Uint8")
+	proto.RegisterType((*Uint16)(nil), "dChan.Uint16")
+	proto.RegisterType((*Uint32)(nil), "dChan.Uint32")
+	proto.RegisterType((*Uint64)(nil), "dChan.Uint64")
+	proto.RegisterType((*Float32)(nil), "dChan.Float32")
+	proto.RegisterType((*Float64)(nil), "dChan.Float64")
 }
 
 func init() { proto.RegisterFile("proto/basic.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 186 bytes of a gzipped FileDescriptorProto
+	// 199 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2c, 0x28, 0xca, 0x2f,
-	0xc9, 0xd7, 0x4f, 0x4a, 0x2c, 0xce, 0x4c, 0xd6, 0x03, 0xb3, 0x85, 0x38, 0x52, 0x9c, 0x33, 0x12,
-	0xf3, 0xf2, 0x52, 0x73, 0x94, 0xe4, 0xb8, 0xd8, 0x82, 0x4b, 0x8a, 0x4a, 0x93, 0x4b, 0x84, 0x44,
-	0xb8, 0x58, 0xcb, 0x12, 0x73, 0x4a, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x82, 0x20, 0x1c,
-	0xa8, 0x7c, 0x66, 0x5e, 0x3a, 0xaa, 0x3c, 0x27, 0x4c, 0x5e, 0x96, 0x8b, 0xd5, 0xa9, 0xb2, 0x24,
-	0xb5, 0x18, 0x55, 0x9a, 0x07, 0x26, 0x2d, 0xc3, 0xc5, 0xe2, 0x94, 0x9f, 0x9f, 0x83, 0xc3, 0x70,
-	0x19, 0x2e, 0x16, 0xcf, 0xbc, 0x12, 0x0b, 0x54, 0x59, 0x56, 0x24, 0xa3, 0x3d, 0xf3, 0x4a, 0x0c,
-	0xcd, 0xf0, 0x4a, 0x1b, 0x1b, 0xe1, 0x95, 0x36, 0x33, 0x41, 0x95, 0x66, 0x46, 0x92, 0x0e, 0xcd,
-	0xc4, 0xb0, 0x9b, 0x17, 0xc9, 0xdb, 0x20, 0x69, 0x74, 0xcb, 0xd1, 0xe5, 0xd1, 0x6d, 0x47, 0x97,
-	0x47, 0xb7, 0x9e, 0x05, 0x26, 0x2f, 0xcf, 0xc5, 0xee, 0x96, 0x93, 0x9f, 0x88, 0x61, 0x00, 0x13,
-	0xba, 0x02, 0x74, 0x13, 0x18, 0xa1, 0x0a, 0x92, 0xd8, 0xc0, 0x31, 0x69, 0x0c, 0x08, 0x00, 0x00,
-	0xff, 0xff, 0x03, 0xf2, 0xf6, 0x3a, 0xde, 0x01, 0x00, 0x00,
+	0xc9, 0xd7, 0x4f, 0x4a, 0x2c, 0xce, 0x4c, 0xd6, 0x03, 0xb3, 0x85, 0x58, 0x53, 0x9c, 0x33, 0x12,
+	0xf3, 0x94, 0xe4, 0xb8, 0xd8, 0x82, 0x4b, 0x8a, 0x4a, 0x93, 0x4b, 0x84, 0x44, 0xb8, 0x58, 0xcb,
+	0x12, 0x73, 0x4a, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x82, 0x20, 0x1c, 0xa8, 0x7c, 0x66,
+	0x5e, 0x3a, 0xaa, 0x3c, 0x27, 0x4c, 0x5e, 0x96, 0x8b, 0xd5, 0xa9, 0xb2, 0x24, 0xb5, 0x18, 0x55,
+	0x9a, 0x07, 0x26, 0x2d, 0xc3, 0xc5, 0xe2, 0x94, 0x9f, 0x9f, 0x83, 0xc3, 0x70, 0x69, 0x2e, 0x66,
+	0xcf, 0x3c, 0x34, 0x9b, 0x59, 0x91, 0xb4, 0x7a, 0xe6, 0x95, 0x58, 0xe0, 0x90, 0x95, 0xe5, 0x62,
+	0xf5, 0xcc, 0x2b, 0x31, 0x34, 0xc3, 0x2b, 0x6d, 0x6c, 0x84, 0x57, 0xda, 0xcc, 0x04, 0x55, 0x9a,
+	0x19, 0xc9, 0xea, 0xd0, 0x4c, 0x74, 0x87, 0xf1, 0x22, 0x69, 0x06, 0xc9, 0x5a, 0xe0, 0x90, 0x96,
+	0xe3, 0x62, 0x03, 0x49, 0xa3, 0x3b, 0x0d, 0x5d, 0x1e, 0xdd, 0x6d, 0xe8, 0xf2, 0xe8, 0x8e, 0x63,
+	0x81, 0xc9, 0xcb, 0x73, 0xb1, 0xbb, 0xe5, 0xe4, 0x27, 0x62, 0x18, 0xc0, 0x84, 0xae, 0x00, 0xdd,
+	0x04, 0x46, 0xa8, 0x82, 0x24, 0x36, 0x70, 0x0a, 0x30, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x00,
+	0xb8, 0x1b, 0xbb, 0x16, 0x02, 0x00, 0x00,
 }
