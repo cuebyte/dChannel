@@ -30,10 +30,6 @@ func (dc *dChannel) PipeOut(name string, c interface{}) {
 	dc.register(name, c, outbound)
 }
 
-func (dc *dChannel) costomRegister(name string) {
-
-}
-
 // the fucking golang doesn't support overridding
 func (dc *dChannel) register(name string, c interface{}, mode uint8) {
 	if mode == inbound {
