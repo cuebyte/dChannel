@@ -1,0 +1,96 @@
+{
+    "memo": "98a5fb75605d143032e168d33cf65312620a2ae480a110ed7f642d2e8a39df78",
+    "projects": [
+        {
+            "name": "github.com/gogo/protobuf",
+            "version": "v0.4",
+            "revision": "100ba4e885062801d56799d78530b73b178a78f3",
+            "packages": [
+                "proto"
+            ]
+        },
+        {
+            "name": "github.com/golang/protobuf",
+            "branch": "master",
+            "revision": "18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8",
+            "packages": [
+                "proto"
+            ]
+        },
+        {
+            "name": "github.com/gopherjs/gopherjs",
+            "branch": "master",
+            "revision": "9659c814f1d54d63f9c623449a7111d3864c1361",
+            "packages": [
+                "js"
+            ]
+        },
+        {
+            "name": "github.com/jtolds/gls",
+            "version": "v4.2.0",
+            "revision": "8ddce2a84170772b95dd5d576c48d517b22cac63",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/mreiferson/go-snappystream",
+            "version": "v0.2.3",
+            "revision": "028eae7ab5c4c9e2d1cb4c4ca1e53259bbe7e504",
+            "packages": [
+                ".",
+                "snappy-go"
+            ]
+        },
+        {
+            "name": "github.com/nsqio/go-nsq",
+            "version": "v1.0.6",
+            "revision": "d71fb89c9e0263aaed89645b0b168e11ccf597b1",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/smartystreets/assertions",
+            "version": "1.6.0",
+            "revision": "e9a2f6771d97c709b2f7609fdf89ebde8b64c926",
+            "packages": [
+                ".",
+                "internal/go-render/render",
+                "internal/oglematchers"
+            ]
+        },
+        {
+            "name": "github.com/smartystreets/goconvey",
+            "version": "1.6.2",
+            "revision": "d4c757aa9afd1e2fc1832aaab209b5794eb336e1",
+            "packages": [
+                "convey",
+                "convey/gotest",
+                "convey/reporting"
+            ]
+        },
+        {
+            "name": "go.uber.org/atomic",
+            "version": "v1.2.0",
+            "revision": "4e336646b2ef9fc6e47be8e21594178f98e5ebcf",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "go.uber.org/zap",
+            "version": "v1.3.0",
+            "revision": "6a4e056f2cc954cfec3581729e758909604b3f76",
+            "packages": [
+                ".",
+                "buffer",
+                "internal/bufferpool",
+                "internal/color",
+                "internal/exit",
+                "internal/multierror",
+                "zapcore"
+            ]
+        }
+    ]
+}

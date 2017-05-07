@@ -1,4 +1,4 @@
-package dChan
+package dChannel
 
 import (
 	"testing"
@@ -18,17 +18,17 @@ func TestInbound(t *testing.T) {
 		cs := make(chan struct{}, 100)
 		Convey("When ", t, func() {
 			// TODO need a name? can I use reflect?
-			dc.PipeIn(cs)
+			dc.PipeIn("x", cs) // chan<-
 		})
 	})
 }
 
 func TestOutbound(t *testing.T) {
 	Convey("Given ", t, func() {
-		d := New()
+		dc := New()
 		cs := make(chan struct{}, 100)
 		Convey("When ", t, func() {
-			dc.PipeOut(cs)
+			dc.PipeOut("x", cs) // <-chan
 		})
 	})
 }
