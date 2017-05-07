@@ -7,13 +7,8 @@ import (
 	"go.uber.org/zap"
 )
 
-type adaptor struct {
-	delay  time.Duration
-	logger *zap.Logger
-}
-
 type nsqAdaptor struct {
-	adaptor
+	AbstractAdaptor
 
 	Lookups  []string
 	Config   *nsq.Config
@@ -21,30 +16,27 @@ type nsqAdaptor struct {
 }
 
 type nsqConsumerAdaptor struct { // impl Consumer
-	nsq.Consumer
+	nc    *nsq.Consumer
+	addrs []string
 }
 
-func (c *nsqConsumerAdaptor) Connect(addrs ...string) {
-	c.ConnectToNSQLookupds(addrs)
+func (a *nsqConsumerAdaptor) Connect(addrs ...string) {
+	a.nc.ConnectToNSQLookupds(addrs)
 }
-func (c *nsqConsumerAdaptor) Disconnect(addrs ...string) {
-	for _, addr := range addrs {
-		c.DisconnectFromNSQLookupd(addr)
+func (a *nsqConsumerAdaptor) Disconnect(addrs ...string) {
+	for _, addr := range a.addrs {
+		a.nc.DisconnectFromNSQLookupd(addr)
 	}
 }
-func (c *nsqConsumerAdaptor) Stop() {
-	c.Stop()
+func (a *nsqConsumerAdaptor) Stop() {
+	a.nc.Stop()
 }
 
 func NewNsqAdaptorDefault() (n *nsqAdaptor, err error) {
 	return NewNsqAdaptor(nsq.NewConfig(), 2*time.Second)
 }
 
-func NewNsqAdaptor(
-	config *nsq.Config,
-	delay time.Duration,
-	lookups ...string) (n *nsqAdaptor, err error) {
-
+func NewNsqAdaptor(config *nsq.Config, delay time.Duration, lookups ...string) (n *nsqAdaptor, err error) {
 	n = &nsqAdaptor{}
 	n.Config = config
 	n.producer, err = nsq.NewProducer("127.0.0.1:4145", config) // local nsqd
@@ -61,7 +53,7 @@ func NewNsqAdaptor(
 }
 
 func (n *nsqAdaptor) Produce(name string, data []byte) {
-	if err := n.producer.DeferredPublish(name, n.delay, data); err != nil {
+	if err := n.producer.DeferredPublish("dC:"+name, n.delay, data); err != nil {
 		n.logger.Error("Connect problems occured when publishing.",
 			zap.String("name", name),
 			zap.ByteString("data", data))
@@ -69,10 +61,11 @@ func (n *nsqAdaptor) Produce(name string, data []byte) {
 	}
 }
 
-func (n *nsqAdaptor) Consume(name string, concurrency int, handler ConsumeHandler) {
-	q, _ := nsq.NewConsumer(name, "ch", n.Config)
+func (n *nsqAdaptor) Consume(name string, concurrency int, handler ConsumeHandler) Consumer {
+	q, _ := nsq.NewConsumer("dC:"+name, "ch", n.Config)
 	q.AddConcurrentHandlers(nsq.HandlerFunc(func(msg *nsq.Message) error {
 		return handler.HandleBytes(msg.Body)
 	}), concurrency)
 	q.ConnectToNSQLookupds(n.Lookups)
+	return &nsqConsumerAdaptor{q, n.Lookups}
 }

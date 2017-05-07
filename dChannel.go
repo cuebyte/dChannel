@@ -8,26 +8,8 @@ import (
 	"go.uber.org/zap"
 )
 
-type Connector interface {
-	Produce(name string, data []byte)
-	Consume(name string, concurrency uint, handler ConsumeHandler)
-}
-
-type ConsumeHandler interface {
-	HandleBytes(data []byte) error
-}
-type ConsumeFunc func(data []byte) error // impl ConsumeHandler
-
-type Consumer interface {
-	Connect(addrs ...string)
-	Disconnect(addrs ...string)
-	Stop()
-}
-
-func (f ConsumeFunc) HandleBytes(data []byte) error { return f(data) }
-
 type dChannel struct {
-	conn Connector
+	conn Adaptor
 
 	inCtrlMap   map[string]chan uint32
 	outCtrlMap  map[string]chan uint32
@@ -53,13 +35,14 @@ func (dc *dChannel) Close(name string) error {
 }
 
 func (dc *dChannel) registerInbound(name string, c interface{}) error {
-	if err := dc.regInCtrl(name); err != nil {
-		return err
+	if _, ok := dc.inCtrlMap[name]; !ok {
+		return fmt.Errorf("register name duplicated. name=%s", name)
 	}
+	var consumer Consumer
 	switch c.(type) {
 	// case chan struct{}:
 	case chan string:
-		dc.regInString(name, c.(chan string))
+		consumer = dc.regInString(name, c.(chan string))
 	// case chan []byte:
 	// case chan bool:
 	// case chan int:
@@ -68,15 +51,14 @@ func (dc *dChannel) registerInbound(name string, c interface{}) error {
 	// case chan float64:
 	default:
 	}
+	dc.regInCtrl(name, consumer)
 	return nil
 }
 
-// the fucking golang doesn't support overridding
 func (dc *dChannel) registerOutbound(name string, c interface{}) error {
-	if err := dc.regOutCtrl(name); err != nil {
-		return err
+	if _, ok := dc.outCtrlMap[name]; !ok {
+		return fmt.Errorf("register name duplicated. name=%s", name)
 	}
-
 	switch c.(type) {
 	// case chan struct{}:
 	// dc.regStructOut(name, c.(chan struct{}))
@@ -96,11 +78,12 @@ func (dc *dChannel) registerOutbound(name string, c interface{}) error {
 	// 	dc.regFloat64Out(name, c.(chan float64))
 	default:
 	}
+	dc.regOutCtrl(name)
 	return nil
 }
 
-func (dc *dChannel) regInString(name string, c chan<- string) {
-	dc.conn.Consume(name, dc.concurrency, ConsumeFunc(func(data []byte) error {
+func (dc *dChannel) regInString(name string, c chan<- string) Consumer {
+	return dc.conn.Consume(name, dc.concurrency, ConsumeFunc(func(data []byte) error {
 		tmp := &pb.String{}
 		if err := proto.Unmarshal(data, tmp); err != nil {
 			return err
@@ -124,21 +107,35 @@ func (dc *dChannel) regOutString(name string, c <-chan string) {
 	})
 }
 
-func (dc *dChannel) regInCtrl(name string) error {
+func (dc *dChannel) regInCtrl(name string, consumer Consumer) {
+	dc.inCtrlMap[name] = make(chan uint32)
+	ctrlName := name + "-ctrl"
+	ctrlConsumer := dc.conn.Consume(ctrlName, 1, ConsumeFunc(func(data []byte) error {
+		tmp := &pb.Control{}
+		if err := proto.Unmarshal(data, tmp); err != nil {
+			return err
+		}
+		dc.inCtrlMap[name] <- tmp.Value
+		return nil
+	}))
+	go func() {
+		// TODO concurrency control
+		<-dc.inCtrlMap[name]
+		// TODO analysis the output
+		consumer.Stop()
+		ctrlConsumer.Stop()
+		delete(dc.inCtrlMap, name)
+	}()
 }
 
-func (dc *dChannel) regOutCtrl(name string) error {
-	if _, ok := dc.outCtrlMap[name]; !ok {
-		return fmt.Errorf("register name duplicated. name=%s", name)
-	}
+func (dc *dChannel) regOutCtrl(name string) {
 	dc.outCtrlMap[name] = make(chan uint32)
+	ctrlName := name + "-ctrl"
 	go func() {
-		ctrlName := name + "-ctrl"
 		data, err := proto.Marshal(&pb.Control{<-dc.outCtrlMap[name]})
 		dc.marshalErrorHdlr(err, name, "Controll")
 		dc.conn.Produce(ctrlName, data)
 	}()
-	return nil
 }
 
 func (dc *dChannel) marshalErrorHdlr(err error, name, typ string) {

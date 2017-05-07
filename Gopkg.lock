@@ -1,0 +1,61 @@
+memo = "37d479c537021ac6cdaa1f3483f3466f4577177a0daad8ed83a4cad3bc855cba"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/gogo/protobuf"
+  packages = ["proto"]
+  revision = "6fe4aed35b712b681d5d372e06da5344c22ed61f"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/golang/snappy"
+  packages = ["."]
+  revision = "553a641470496b2327abcac10b36396bd98e45c9"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/gopherjs/gopherjs"
+  packages = ["js"]
+  revision = "9659c814f1d54d63f9c623449a7111d3864c1361"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jtolds/gls"
+  packages = ["."]
+  revision = "77f18212c9c7edc9bd6a33d383a7b545ce62f064"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/nsqio/go-nsq"
+  packages = ["."]
+  revision = "b2d0b4429f2082bc44babe089418d8da16d71e8a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/smartystreets/assertions"
+  packages = [".","internal/go-render/render","internal/oglematchers"]
+  revision = "c9ee7d9e9a2aeec0bee7c4a516f3e0ad7cb7e558"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/smartystreets/goconvey"
+  packages = ["convey","convey/gotest","convey/reporting"]
+  revision = "3bd662eac601ad6436e64776af2e112069eb2edc"
+
+[[projects]]
+  branch = "master"
+  name = "go.uber.org/atomic"
+  packages = ["."]
+  revision = "1d7f075bbe2659dfefbcb41e135048f29da50547"
+
+[[projects]]
+  branch = "master"
+  name = "go.uber.org/zap"
+  packages = [".","buffer","internal/bufferpool","internal/color","internal/exit","internal/multierror","zapcore"]
+  revision = "cea6c27e79e5fd11f29021359e19bb5d02be1682"
