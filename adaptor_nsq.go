@@ -4,44 +4,75 @@ import (
 	"time"
 
 	nsq "github.com/nsqio/go-nsq"
-	z "go.uber.org/zap"
+	"go.uber.org/zap"
 )
 
 type adaptor struct {
 	delay  time.Duration
-	logger *z.Logger
+	logger *zap.Logger
 }
 
-type adaptorNsq struct {
+type nsqAdaptor struct {
 	adaptor
 
-	config   *nsq.Config
-	consumer *nsq.Consumer
+	Lookups  []string
+	Config   *nsq.Config
 	producer *nsq.Producer
-
-	lookups []string
 }
 
-func NewNsq() *adaptorNsq {
-	n := &adaptorNsq{}
-	n.logger, _ = z.NewProduction()
-	return n
+type nsqConsumerAdaptor struct { // impl Consumer
+	nsq.Consumer
 }
 
-func (n *adaptorNsq) Produce(name string, data []byte) {
+func (c *nsqConsumerAdaptor) Connect(addrs ...string) {
+	c.ConnectToNSQLookupds(addrs)
+}
+func (c *nsqConsumerAdaptor) Disconnect(addrs ...string) {
+	for _, addr := range addrs {
+		c.DisconnectFromNSQLookupd(addr)
+	}
+}
+func (c *nsqConsumerAdaptor) Stop() {
+	c.Stop()
+}
+
+func NewNsqAdaptorDefault() (n *nsqAdaptor, err error) {
+	return NewNsqAdaptor(nsq.NewConfig(), 2*time.Second)
+}
+
+func NewNsqAdaptor(
+	config *nsq.Config,
+	delay time.Duration,
+	lookups ...string) (n *nsqAdaptor, err error) {
+
+	n = &nsqAdaptor{}
+	n.Config = config
+	n.producer, err = nsq.NewProducer("127.0.0.1:4145", config) // local nsqd
+	if err != nil {
+		return
+	}
+	n.delay = delay
+	n.logger, err = zap.NewProduction()
+	if err != nil {
+		return
+	}
+	n.Lookups = append([]string{"127.0.0.1:4160"}, lookups...) // default with local nsqlookup
+	return
+}
+
+func (n *nsqAdaptor) Produce(name string, data []byte) {
 	if err := n.producer.DeferredPublish(name, n.delay, data); err != nil {
 		n.logger.Error("Connect problems occured when publishing.",
-			z.String("name", name),
-			z.ByteString("data", data))
+			zap.String("name", name),
+			zap.ByteString("data", data))
 		n.logger.Sync()
 	}
 }
 
-func (n *adaptorNsq) Consume(name string, concurrency int, handler ConsumeHandler) {
-	q, _ := nsq.NewConsumer(name, "ch", n.config)
+func (n *nsqAdaptor) Consume(name string, concurrency int, handler ConsumeHandler) {
+	q, _ := nsq.NewConsumer(name, "ch", n.Config)
 	q.AddConcurrentHandlers(nsq.HandlerFunc(func(msg *nsq.Message) error {
-		handler.HandleBytes(msg.Body)
-		return nil
+		return handler.HandleBytes(msg.Body)
 	}), concurrency)
-	q.ConnectToNSQLookupds(n.lookups)
+	q.ConnectToNSQLookupds(n.Lookups)
 }

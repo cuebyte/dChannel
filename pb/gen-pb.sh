@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-protoc --go_out=. proto/*.proto
+protoc --go_out=. pb/*.proto
